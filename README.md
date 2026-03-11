@@ -2,69 +2,87 @@
 
 Tree-sitter grammar for parsing unified diff files.
 
-This project is now **tree-sitter-first**:
+## Repository layout
 
 - Grammar: `grammar.js`
-- Generated parser: `src/parser.c`, `src/grammar.json`, `src/node-types.json`
+- Generated parser artifacts: `src/parser.c`, `src/grammar.json`, `src/node-types.json`
+- Tree-sitter runtime headers (vendored): `src/tree_sitter/*.h`
 - Corpus tests: `test/corpus/unified_diff.txt`
 - Highlight queries: `queries/highlights.scm`
 - Tree-sitter config: `tree-sitter.json`
 
-## Primary workflow (tree-sitter)
+Removed as unnecessary for this grammar-only repository:
 
-### Prerequisites
+- legacy standalone C parser/library code
+- legacy CMake/clang-tidy build scaffolding
+- ad-hoc log/output artifacts
 
-- `tree-sitter` CLI installed (`tree-sitter --version`)
+## Prerequisites
 
-### Generate parser artifacts
+- Node.js + npm
+- Tree-sitter CLI
+
+Install CLI (if needed):
 
 ```bash
-tree-sitter generate
+npm install -g tree-sitter-cli
 ```
 
-### Run grammar tests
+or use npx without global install:
 
 ```bash
-tree-sitter test
+npx tree-sitter generate
 ```
 
-## Grammar coverage (current)
+## Development workflow
 
-- Preamble lines before file patches
-- File headers:
+Install dependencies (optional but recommended for script-based usage):
+
+```bash
+npm install
+```
+
+Generate parser artifacts:
+
+```bash
+npm run generate
+# or: tree-sitter generate
+```
+
+Run grammar corpus tests:
+
+```bash
+npm test
+# or: tree-sitter test
+```
+
+## What this grammar parses
+
+- preamble lines before file patches
+- file headers:
   - `--- <path>`
   - `+++ <path>`
-- Hunk headers:
+- hunk headers:
   - `@@ -start[,count] +start[,count] @@[ section]`
-- Hunk body lines:
+- hunk body lines:
   - context (` `)
   - additions (`+`)
   - deletions (`-`)
   - note (`\ No newline at end of file`)
-- Multiple file patches in one document
+- multiple file patches in one document
 
-## Repository notes
+## Using this grammar
 
-The repository still contains a standalone C parser library under:
-
-- `include/unified_diff_parser.h`
-- `src/unified_diff_parser.c`
-
-That C parser is retained as auxiliary/reference code. The project objective is
-the tree-sitter grammar and corpus-based validation.
-
-## Optional C build/test flow (legacy helper)
+This repository is a standard Tree-sitter grammar package. Typical consumption paths:
 
 ```bash
-cmake -S . -B build
-cmake --build build
-ctest --test-dir build --output-on-failure
+npm pack
 ```
 
-ASan variant:
+Then use the packaged grammar from your Tree-sitter binding/tooling environment (Node, Rust, Python, etc.) as configured by `tree-sitter.json`.
+
+For parser development:
 
 ```bash
-cmake -S . -B build-asan -DUSE_ASAN=ON
-cmake --build build-asan
-ctest --test-dir build-asan --output-on-failure
+tree-sitter parse path/to/file.diff
 ```

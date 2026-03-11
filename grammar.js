@@ -2,7 +2,7 @@
 module.exports = grammar({
   name: "unified_diff",
 
-  extras: ($) => [],
+  extras: () => [],
 
   rules: {
     source_file: ($) =>
@@ -20,17 +20,17 @@ module.exports = grammar({
         ),
       ),
 
-    from_file_line: (_$) => token(prec(3, /--- [^\n]*/)),
-    to_file_line: (_$) => token(prec(3, /\+\+\+ [^\n]*/)),
-    hunk_header: (_$) =>
+    from_file_line: (_) => token(prec(3, /--- [^\n]*/)),
+    to_file_line: (_) => token(prec(3, /\+\+\+ [^\n]*/)),
+    hunk_header: (_) =>
       token(prec(3, /@@ -[0-9]+(,[0-9]+)? \+[0-9]+(,[0-9]+)? @@[^\n]*/)),
 
-    context_line: (_$) => token(prec(2, seq(" ", /[^\n]*/, "\n"))),
-    addition_line: (_$) => token(prec(2, seq("+", /[^\n]*/, "\n"))),
-    deletion_line: (_$) => token(prec(2, seq("-", /[^\n]*/, "\n"))),
-    note_line: (_$) => token(prec(2, seq("\\ No newline at end of file", "\n"))),
+    context_line: (_) => token(prec(2, seq(" ", /[^\n]*/, "\n"))),
+    addition_line: (_) => token(prec(2, seq("+", /[^\n]*/, "\n"))),
+    deletion_line: (_) => token(prec(2, seq("-", /[^\n]*/, "\n"))),
+    note_line: (_) => token(prec(2, seq("\\ No newline at end of file", "\n"))),
 
-    preamble_line: (_$) => token(prec(1, seq(/[^\n]+/, "\n"))),
-    blank_line: (_$) => "\n",
+    preamble_line: (_) => token(prec(1, seq(/[^\n]+/, "\n"))),
+    blank_line: (_) => "\n",
   },
 });

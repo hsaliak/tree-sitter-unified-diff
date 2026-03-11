@@ -1,6 +1,19 @@
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+# Node/package artifacts
+node_modules/
+*.tgz
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local/tooling artifacts
 build/
-build-asan/
+build-*/
 *.db
 *.db-*
 *.log
-.DS_Store
+.cache/
