@@ -1,9 +1,9 @@
 
-# Unified Diff Parse Tree Specification (v1.0, C23-Oriented)
+# Unified Diff Parse Tree 
 
 ## 1. Purpose
 
-This document defines an implementation-ready specification for parsing GNU-style
+This document defines the specification for parsing GNU-style
 **unified diff** text into a stable concrete syntax tree suitable for
 highlighting and structural tooling.
 
@@ -13,14 +13,7 @@ Source basis:
    precedence/conflict discipline).
 2. GNU diffutils unified format and detailed unified hunk semantics.
 
-## 2. Scope and Constraints
-
-- Input: text diff in unified format.
-- Output: typed parse tree with stable node names.
-- Parser style: line-oriented, lossless preservation of source lines.
-- Non-goal in v1: full semantic validation of hunk counts against body lines.
-
-## 3. Authoritative Format Anchors
+## 2. Authoritative Format Anchors
 
 The parser must recognize these mandatory anchors:
 
@@ -41,16 +34,16 @@ Range semantics from GNU detailed unified format:
 - single-line range may appear as just `start`
 - multi-line range appears as `start,count`
 
-## 4. Input Model
+## 3. Input Model
 
 - Treat input as UTF-8 bytes split by `\n`.
 - Parser is line-based.
 - Every physical input line must appear in output either as a recognized node
   or a recoverable error node.
 
-## 5. Grammar Contract (Structural)
+## 4. Grammar Contract (Structural)
 
-### 5.1 Root
+### 4.1 Root
 
 - `source_file`
   - `preamble_line*`
@@ -58,14 +51,14 @@ Range semantics from GNU detailed unified format:
 
 `preamble_line` captures non-core lines before the first recognized file patch.
 
-### 5.2 File Patch
+### 4.2 File Patch
 
 - `file_patch`
   - `from_file_line`
   - `to_file_line`
   - `hunk+`
 
-### 5.3 Hunk
+### 4.3 Hunk
 
 - `hunk`
   - `hunk_header`
@@ -78,7 +71,7 @@ Range semantics from GNU detailed unified format:
     - `section_text?`
   - `hunk_line*`
 
-### 5.4 Hunk Line Variants
+## 4.4 Hunk Line Variants
 
 - `context_line`
 - `addition_line`
@@ -86,7 +79,7 @@ Range semantics from GNU detailed unified format:
 - `note_line`
 - `error_line` (recovery)
 
-## 6. Lexical/Parsing Rules
+## 5. Lexical/Parsing Rules
 
 1. `from_file_line` must begin with literal `--- `.
 2. `to_file_line` must begin with literal `+++ `.
@@ -97,7 +90,7 @@ Range semantics from GNU detailed unified format:
 6. Any payload after `--- ` / `+++ ` is opaque text in v1 (path + optional
    metadata such as timestamps).
 
-## 7. Error Handling / Recovery
+## 6. Error Handling / Recovery
 
 Strict core constraints:
 
@@ -110,7 +103,7 @@ Recovery policy:
 - Within hunk bodies, non-matching lines -> `error_line`.
 - Recovery must preserve input ordering and avoid line drops.
 
-## 8. Highlighting Mapping (Query-Agnostic)
+## 7. Highlighting Mapping (Query-Agnostic)
 
 Stable node-class intent:
 
@@ -122,21 +115,3 @@ Stable node-class intent:
 - `note_line`: meta/warning style
 
 Capture names are implementation-defined, but node names above are the contract.
-
-## 9. Compliance Tests
-
-Required fixtures:
-
-1. One file patch, one hunk.
-2. One file patch, multiple hunks.
-3. Multiple file patches in one document.
-4. Hunk headers with omitted counts (`-N +M`).
-5. Hunk header with trailing section text.
-6. `\ No newline at end of file` marker in hunk body.
-7. Leading preamble lines before first `---`.
-
-Pass criteria:
-
-- Valid fixtures parse without fatal failure.
-- Tree shape matches Sections 5 and 6.
-- Hunk body line classification is exact.
