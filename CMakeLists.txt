@@ -39,4 +39,16 @@ else()
   add_compile_options(-Wall -Wextra -Werror -Wpedantic)
 endif()
 
-add_executable(main src/main.c)
+enable_testing()
+
+add_library(unified_diff_parser src/unified_diff_parser.c)
+target_include_directories(unified_diff_parser PUBLIC include)
+
+add_executable(unified_diff_tests tests/unified_diff_tests.c)
+target_link_libraries(unified_diff_tests PRIVATE unified_diff_parser)
+
+add_executable(unified_diff_example examples/unified_diff_example.c)
+target_link_libraries(unified_diff_example PRIVATE unified_diff_parser)
+
+add_test(NAME unified_diff_tests COMMAND unified_diff_tests)
+

@@ -1,3 +1,6 @@
 build/
+build-asan/
 *.db
+*.db-*
+*.log
 .DS_Store
