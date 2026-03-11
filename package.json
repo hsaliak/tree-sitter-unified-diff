@@ -1,0 +1,20 @@
+{
+  "name": "tree-sitter-unified-diff",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for unified diff",
+  "main": "grammar.js",
+  "keywords": [
+    "tree-sitter",
+    "unified-diff",
+    "diff"
+  ],
+  "files": [
+    "grammar.js",
+    "queries/**",
+    "src/**"
+  ],
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "test": "tree-sitter test"
+  }
+}
