@@ -13,9 +13,6 @@ Source basis:
    precedence/conflict discipline).
 2. GNU diffutils unified format and detailed unified hunk semantics.
 
-This repository is C23-oriented; this spec does **not** require JavaScript
-sources.
-
 ## 2. Scope and Constraints
 
 - Input: text diff in unified format.
@@ -126,7 +123,7 @@ Stable node-class intent:
 
 Capture names are implementation-defined, but node names above are the contract.
 
-## 9. Compliance Tests (Minimum)
+## 9. Compliance Tests
 
 Required fixtures:
 
@@ -143,17 +140,3 @@ Pass criteria:
 - Valid fixtures parse without fatal failure.
 - Tree shape matches Sections 5 and 6.
 - Hunk body line classification is exact.
-
-## 10. Non-Goals (v1)
-
-- Typed parsing of git extended headers (`diff --git`, `index`, mode/rename,
-  similarity, etc.).
-- Cross-checking whether body line totals exactly match declared counts.
-- Path unescaping/canonicalization beyond raw payload retention.
-
-## 11. Versioning and Compatibility
-
-- Spec version: `1.0`.
-- Backward compatibility rule: existing node names in Sections 5 and 8 are
-  stable for all `1.x` revisions.
-- Future additions should be optional nodes/fields, not renames/removals.

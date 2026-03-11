@@ -11,12 +11,6 @@ Tree-sitter grammar for parsing unified diff files.
 - Highlight queries: `queries/highlights.scm`
 - Tree-sitter config: `tree-sitter.json`
 
-Removed as unnecessary for this grammar-only repository:
-
-- legacy standalone C parser/library code
-- legacy CMake/clang-tidy build scaffolding
-- ad-hoc log/output artifacts
-
 ## Prerequisites
 
 - Node.js + npm
