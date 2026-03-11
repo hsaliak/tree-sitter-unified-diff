@@ -31,13 +31,8 @@ This project is a modern C starter template designed for C23 development. It int
 - **ThreadSanitizer (TSan)**: Detects data races. Enabled with `-DUSE_TSAN=ON`.
 - *Note*: ASan and TSan are mutually exclusive.
 
-## 4. Resource Management (RAII in C)
-- Automatic resource cleanup is achieved using the `[[gnu::cleanup(function)]]` attribute.
-- This pattern ensures that resources (memory, file handles, locks) are released automatically when the variable goes out of scope.
-- **Cleanup functions** must accept a pointer to the variable being cleaned up.
 
 ## 5. C23 Feature Usage
-- **Attributes**: `[[gnu::cleanup]]`, `[[maybe_unused]]`, etc.
 - **Keywords**: `bool`, `true`, `false`, `static_assert` (single argument).
 - **Standard Library**: Uses `nullptr` and `constexpr` where supported; provides fallbacks for environments with partial C23 support.
 
@@ -50,3 +45,8 @@ This project is a modern C starter template designed for C23 development. It int
 
 ## 7. Formatting
 Code formatting follows modern C conventions. Run `clang-format` before committing.
+
+
+## 8. Data Structures
+Prefer simple data structures over complex ones, use intrusive linked lists if needed, and make use of container_of
+Use well written macros to simplify
