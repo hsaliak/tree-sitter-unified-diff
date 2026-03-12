@@ -1,6 +1,6 @@
 # tree-sitter-unified-diff
 
-Tree-sitter grammar for parsing unified diff files.
+Tree-sitter grammar for parsing unified diff files
 
 ## Repository layout
 
